@@ -133,7 +133,9 @@ jobs:
           echo -n ${{ secrets.MAVEN_SETTINGS }} > /root/.m2/settings.xml
           mvn --version
           gpg --version
-          ./infra/scripts/publish-java-sdk.sh --revision ${VERSION_WITHOUT_PREFIX}
+          gpg --import --batch --yes $GPG_KEY_IMPORT_DIR/public-key
+          gpg --import --batch --yes $GPG_KEY_IMPORT_DIR/private-key
+          mvn --projects datatypes/java,sdk/java -Drevision=$REVISION --batch-mode clean deploy
 
 
   publish-helm-charts:
