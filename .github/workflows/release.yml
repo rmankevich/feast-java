@@ -128,8 +128,6 @@ jobs:
         env:
           VERSION_WITHOUT_PREFIX: ${{ needs.get-version.outputs.version_without_prefix }}
         run: |
-          echo -n ${{ secrets.GPG_PUBLIC_KEY }} > /etc/gpg/public-key
-          echo -n ${{ secrets.GPG_PRIVATE_KEY }} > /etc/gpg/private-key
           echo "run script"
           mvn --version
           gpg --version
