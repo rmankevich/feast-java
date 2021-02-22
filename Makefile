@@ -79,7 +79,7 @@ build-serving-docker:
 # Versions
 
 lint-versions:
-	./infra/scripts/validate-version-consistency.sh
+	./infra/scripts/validate-helm-chart-versions.sh $(VERSION)
 
 # Performance
 
