@@ -130,7 +130,6 @@ jobs:
         run: |
           echo -n ${{ secrets.GPG_PUBLIC_KEY }} > /etc/gpg/public-key
           echo -n ${{ secrets.GPG_PRIVATE_KEY }} > /etc/gpg/private-key
-          echo -n ${{ secrets.MAVEN_SETTINGS }} > /root/.m2/settings.xml
           echo "run script"
           mvn --version
           gpg --version
