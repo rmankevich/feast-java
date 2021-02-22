@@ -132,6 +132,7 @@ jobs:
           MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
         run: |
           sudo mkdir /etc/gpg
+          sudo mkdir /root/.m2
           sudo bash -c 'echo -n "$GPG_PUBLIC_KEY" > /etc/gpg/public-key'
           sudo bash -c 'echo -n "$GPG_PRIVATE_KEY" > /etc/gpg/private-key'
           sudo bash -c 'echo -n "$MAVEN_SETTINGS" > /root/.m2/settings.xml'
