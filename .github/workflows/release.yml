@@ -128,6 +128,9 @@ jobs:
       - name: Publish java sdk
         env:
           VERSION_WITHOUT_PREFIX: ${{ needs.get-version.outputs.version_without_prefix }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           mvn --projects datatypes/java,sdk/java -Drevision=${VERSION_WITHOUT_PREFIX} --batch-mode clean deploy
 
