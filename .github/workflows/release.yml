@@ -114,10 +114,11 @@ jobs:
           java-version: '11'
           java-package: jdk
           architecture: x64
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.6'
-          architecture: 'x64'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          server-id: osshr
+          server-username: ${{ secrets.MAVEN_USERNAME }}
+          server-password: ${{ secrets.MAVEN_PASSWORD }}
       - uses: actions/cache@v2
         with:
           path: ~/.m2/repository
@@ -127,16 +128,8 @@ jobs:
       - name: Publish java sdk
         env:
           VERSION_WITHOUT_PREFIX: ${{ needs.get-version.outputs.version_without_prefix }}
-          GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
         run: |
-          sudo mkdir /etc/gpg
-          sudo mkdir /root/.m2
-          sudo bash -c 'echo -n "$GPG_PUBLIC_KEY" > ./public-key'
-          sudo bash -c 'echo -n "$GPG_PRIVATE_KEY" > ./private-key'
-          sudo bash -c 'echo -n "$MAVEN_SETTINGS" > /root/.m2/settings.xml'
-          ./infra/scripts/publish-java-sdk.sh --revision ${VERSION_WITHOUT_PREFIX} --gpg-key-import-dir `pwd`
+          mvn --projects datatypes/java,sdk/java -Drevision=${VERSION_WITHOUT_PREFIX} --batch-mode clean deploy
 
   publish-helm-charts:
     runs-on:  ubuntu-latest
